@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مفاجأة عيد الميلاد! 🎉</title>
+    <title>Happy Birthday Sister! 🎁🎉</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            background-color: #fdeed9;
+            background-image: radial-gradient(#f8a5c2 20%, transparent 20%);
+            background-size: 25px 25px;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -19,259 +21,324 @@
             min-height: 100vh;
         }
         .container {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 550px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
             width: 100%;
             text-align: center;
+            border: 4px solid #ff789e;
             position: relative;
         }
-        h1 { color: #ff4757; margin-bottom: 10px; }
-        h3 { color: #2f3542; margin-top: 15px; }
-        p { color: #555; line-height: 1.6; }
+        h1, h2 { color: #ff4757; }
+        p { color: #485460; font-size: 16px; line-height: 1.5; }
         
-        .progress-bar {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        /* خيارات الأسئلة */
+        /* الأسئلة والخيارات */
         .quiz-option {
-            background: #f1f2f6;
-            border: 2px solid #dfe4ea;
+            background: #fff0f3;
+            border: 2px solid #ff789e;
             padding: 12px;
             margin: 10px 0;
-            border-radius: 10px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             font-weight: bold;
+            color: #d63031;
         }
         .quiz-option:hover {
-            background: #ff4757;
+            background: #ff789e;
             color: white;
-            border-color: #ff4757;
         }
-
-        /* بطاقة المعايدة */
-        #card-section {
+        .error-message {
+            color: #ff4757;
+            font-weight: bold;
+            margin-top: 10px;
             display: none;
-            animation: fadeIn 1s forwards;
-        }
-        .card-message {
-            background: #fff0f3;
-            padding: 20px;
-            border-radius: 15px;
-            border-right: 5px solid #ff4757;
-            text-align: right;
-            margin: 15px 0;
         }
 
-        /* الأزرار */
-        .btn-action {
+        /* الأزرار العامة */
+        .btn-next, .btn-back {
             background: #ff4757;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 15px;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin: 5px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
             transition: transform 0.2s;
         }
-        .btn-action:hover {
+        .btn-next:hover, .btn-back:hover {
             transform: scale(1.05);
         }
-        .btn-music {
-            background: #ffa502;
+
+        /* رسالة المعايدة */
+        #message-section { display: none; }
+        .card-box {
+            background: #fff5f5;
+            border: 3px dashed #ff789e;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px 0;
         }
 
-        /* لعبة الهدايا */
-        #game-section {
-            display: none;
-            animation: fadeIn 1s forwards;
+        /* شاشة الموسيقى والتلفاز */
+        #song-section { display: none; }
+        .tv-frame {
+            background: #f8a5c2;
+            border: 4px solid #ffffff;
+            border-radius: 35px;
+            padding: 20px 15px;
+            width: 280px;
+            margin: 20px auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            position: relative;
         }
-        .gifts-container {
+        .tv-screen {
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .tv-screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .tv-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .tv-btn {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        /* شاشة الهدايا الثلاث */
+        #gifts-section { display: none; }
+        .gifts-grid {
             display: flex;
             justify-content: space-around;
-            margin-top: 20px;
-            flex-wrap: wrap;
             gap: 10px;
+            margin-top: 20px;
         }
-        .gift-card {
-            background: #f1f2f6;
-            border: 2px dashed #ff4757;
+        .gift-item {
+            background: #fff0f3;
+            border: 2px solid #ff789e;
             border-radius: 15px;
-            padding: 15px;
+            padding: 15px 10px;
             width: 30%;
-            min-width: 130px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.2s;
         }
-        .gift-card:hover {
-            transform: translateY(-5px);
-        }
-        .gift-icon { font-size: 50px; }
-        .gift-content { display: none; margin-top: 10px; }
-        .gift-content img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
+        .gift-item:hover { transform: translateY(-5px); }
+        .gift-icon { font-size: 40px; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* شاشة عرض الهدية المفردة */
+        #single-gift-view { display: none; }
+        .gift-display-img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 15px 0;
         }
     </style>
+    <!-- مكتبة القصاصات الاحتفالية -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
 <div class="container">
-    
-    <!-- 1. قسم الأسئلة -->
-    <div id="quiz-container">
-        <h1>🎂 لغز عيد الميلاد!</h1>
-        <div class="progress-bar" id="progress">السؤال 1 من 3</div>
+
+    <!-- 1. الأسئلة الثلاثة -->
+    <div id="quiz-section">
         
+        <!-- السؤال الأول -->
         <div id="q1">
-            <h3>1. ما هو أكثر شيء يميز صداقتنا؟ 🤔</h3>
-            <div class="quiz-option" onclick="checkAnswer(1, false)">أننا نتحدث عن الطقس فقط ☀️</div>
-            <div class="quiz-option" onclick="checkAnswer(1, true)">أننا نفهم بعضنا ونضحك معاً 💖</div>
-            <div class="quiz-option" onclick="checkAnswer(1, false)">أننا ننسى الرد على بعضنا 😅</div>
+            <h2>Question 1/3</h2>
+            <p><strong>Was I a good boy to you this year? 🥺</strong></p>
+            <div class="quiz-option" onclick="handleQ1(false)">No ofc not!</div>
+            <div class="quiz-option" onclick="handleQ1(true)">Yes my silly lil puppy</div>
+            <div class="quiz-option" onclick="handleQ1(true)">ummm not always but ya my stupid boy</div>
+            <p id="q1-error" class="error-message">ohh cmmmn don't make me cry 🥺💔</p>
         </div>
 
+        <!-- السؤال الثاني -->
         <div id="q2" style="display: none;">
-            <h3>2. ما هي أكثر صفة أحبها بكِ؟ ✨</h3>
-            <div class="quiz-option" onclick="checkAnswer(2, true)">طيبة قلبكِ ولطافتكِ الدائمة 🌸</div>
-            <div class="quiz-option" onclick="checkAnswer(2, false)">حُبكِ للنوم والراحة 😴</div>
-            <div class="quiz-option" onclick="checkAnswer(2, false)">العناد 🙈</div>
+            <h2>Question 2/3</h2>
+            <p><strong>Are you happy w me nd we best friends?</strong></p>
+            <div class="quiz-option" onclick="handleQ2(true)">Yes ofc!</div>
+            <div class="quiz-option" onclick="handleQ2(false)">Nope</div>
+            <p id="q2-error" class="error-message">Wrong answer! Try again! 😉</p>
         </div>
 
+        <!-- السؤال الثالث -->
         <div id="q3" style="display: none;">
-            <h3>3. هل أنتِ جاهزة لرؤية المعايدة والهدية؟ 🎁</h3>
-            <div class="quiz-option" onclick="checkAnswer(3, false)">ليس بعد 🙈</div>
-            <div class="quiz-option" onclick="checkAnswer(3, true)">نعم، بكل تأكيد! 🎉</div>
+            <h2>Question 3/3</h2>
+            <p><strong>Are you ready?</strong></p>
+            <div class="quiz-option" onclick="handleQ3()">Yes!</div>
+            <div class="quiz-option" onclick="handleQ3()">Let me see what my best friend has do for me</div>
         </div>
 
-        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">إجابة خاطئة! حاولي مجدداً 😉</p>
     </div>
 
-    <!-- 2. بطاقة المعايدة + الأغنية من يوتيوب -->
-    <div id="card-section">
-        <h1>✨ كل عام وأنتِ بـألف خير! ✨</h1>
+    <!-- 2. رسالة المعايدة -->
+    <div id="message-section">
+        <h1>✨ Happy Birthday! ✨</h1>
+        <div class="card-box">
+            <p style="font-size: 18px; color: #d63031; font-weight: bold;">
+                Happy birthday t my strong older sister! I am so happy that you are happy and have stayed with me until now I always hope you'll be happy with me. I love you very much my best sister WOOF WOOF!! 🐶❤️
+            </p>
+        </div>
+        <button class="btn-next" onclick="goToSongSection()">Next ➡️</button>
+    </div>
+
+    <!-- 3. قسم الأغنية (التلفاز) -->
+    <div id="song-section">
+        <h1 style="font-family: 'Comic Sans MS';">Our Song 💕</h1>
+        <p>Tap the buttons to Play/Pause!</p>
         
-        <!-- مشغل يوتيوب مخفي ومخصص للأغنية المخترارة -->
-        <div id="yt-player-container" style="display:none;">
-            <iframe id="yt-player" width="100" height="100" 
-                src="https://www.youtube.com/embed/-NNw5b8ADU8?enablejsapi=1" 
-                allow="autoplay">
-            </iframe>
+        <div class="tv-frame">
+            <div class="tv-screen">
+                <iframe id="yt-video" src="https://www.youtube.com/embed/-NNw5b8ADU8?enablejsapi=1" allow="autoplay"></iframe>
+            </div>
+            <div class="tv-controls">
+                <button class="tv-btn" onclick="restartSong()">🔄</button>
+                <button class="tv-btn" onclick="toggleSong()">⏸️/▶️</button>
+            </div>
         </div>
 
-        <!-- زر تشغيل وإيقاف الأغنية -->
-        <button class="btn-action btn-music" onclick="toggleYoutubeMusic()">🎵 تشغيل الأغنية</button>
-
-        <div class="card-message">
-            <h3 style="color: #ff4757; margin-top: 0;">صديقتي العزيزة ❤️</h3>
-            <p>في هذا اليوم المميز، أردت أن أقدم لكِ هذه المفاجأة البسيطة لتصنع لكِ ابتسامة!</p>
-            <p>أتمنى لكِ سنة جديدة مليئة بالسعادة والنجاح وتحقيق كل أحلامكِ. شكراً لأنكِ صديقة رائعة دائماً ✨🎂</p>
-        </div>
-
-        <button class="btn-action" onclick="showGame()">افتحي صندوق الهدايا 🎁✨</button>
+        <button class="btn-next" onclick="goToGiftsSection()">Next ➡️</button>
     </div>
 
-    <!-- 3. لعبة الهدايا الثلاث -->
-    <div id="game-section">
-        <h1>🎁 اختاري هدية لفتحها!</h1>
-        <p>اضغطي على كل هدية لاكتشاف المفاجأة بداخلها:</p>
+    <!-- 4. قسم اختيار الهدايا الثلاث -->
+    <div id="gifts-section">
+        <h1>🎁 Choose a Gift!</h1>
+        <p>Click on any gift to open your surprise:</p>
 
-        <div class="gifts-container">
-            <div class="gift-card" onclick="openGift(1)">
-                <div class="gift-icon" id="icon-1">🎁</div>
-                <div class="gift-content" id="content-1">
-                    <img src="https://via.placeholder.com/150/ff4757/ffffff?text=صورة+1" alt="صورة 1">
-                    <p style="font-size: 12px; margin-top: 5px;">ذكرى جميلة ✨</p>
-                </div>
+        <div class="gifts-grid">
+            <div class="gift-item" onclick="openGift(1)">
+                <div class="gift-icon">🎁</div>
+                <p><strong>Hi</strong></p>
             </div>
-
-            <div class="gift-card" onclick="openGift(2)">
-                <div class="gift-icon" id="icon-2">🎁</div>
-                <div class="gift-content" id="content-2">
-                    <img src="https://via.placeholder.com/150/2ed573/ffffff?text=صورتك+1" alt="صورتك">
-                    <p style="font-size: 12px; margin-top: 5px;">أنا هنا دائماً لأجلكِ! 🙋‍♂️</p>
-                </div>
+            <div class="gift-item" onclick="openGift(2)">
+                <div class="gift-icon">🎁</div>
+                <p><strong>Me!!</strong></p>
             </div>
-
-            <div class="gift-card" onclick="openGift(3)">
-                <div class="gift-icon" id="icon-3">🎁</div>
-                <div class="gift-content" id="content-3">
-                    <img src="https://via.placeholder.com/150/1e90ff/ffffff?text=صورتك+2" alt="صورتك">
-                    <p style="font-size: 12px; margin-top: 5px;">صديقكِ المفضل 😊</p>
-                </div>
+            <div class="gift-item" onclick="openGift(3)">
+                <div class="gift-icon" >🎁</div>
+                <p><strong>Hug!!</strong></p>
             </div>
         </div>
+    </div>
 
-        <button class="btn-action" onclick="location.reload()" style="background: #2ed573; margin-top: 25px;">إعادة من البداية 🔄</button>
+    <!-- 5. شاشة عرض الهدية مع زر العودة -->
+    <div id="single-gift-view">
+        <h2 id="gift-title">Gift Title</h2>
+        <img id="gift-image" class="gift-display-img" src="" alt="Gift Image">
+        <br>
+        <button class="btn-back" onclick="backToGiftsMenu()">⬅️ Back to Gifts</button>
     </div>
 
 </div>
 
 <script>
-    let currentQuestion = 1;
-    let isPlaying = false;
-
-    function checkAnswer(questionNum, isCorrect) {
-        const errorMsg = document.getElementById('error-msg');
+    // التحكم بالأسئلة
+    function handleQ1(isCorrect) {
         if (isCorrect) {
-            errorMsg.style.display = 'none';
-            document.getElementById(`q${questionNum}`).style.display = 'none';
-            
-            if (questionNum < 3) {
-                currentQuestion++;
-                document.getElementById(`q${currentQuestion}`).style.display = 'block';
-                document.getElementById('progress').innerText = `السؤال ${currentQuestion} من 3`;
-            } else {
-                document.getElementById('quiz-container').style.display = 'none';
-                document.getElementById('card-section').style.display = 'block';
-                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-            }
+            document.getElementById('q1').style.display = 'none';
+            document.getElementById('q2').style.display = 'block';
         } else {
-            errorMsg.style.display = 'block';
+            document.getElementById('q1-error').style.display = 'block';
         }
     }
 
-    // تشغيل الأغنية من يوتيوب
-    function toggleYoutubeMusic() {
-        const iframe = document.getElementById('yt-player');
-        const btn = document.querySelector('.btn-music');
-        
+    function handleQ2(isCorrect) {
+        if (isCorrect) {
+            document.getElementById('q2').style.display = 'none';
+            document.getElementById('q3').style.display = 'block';
+        } else {
+            document.getElementById('q2-error').style.display = 'block';
+        }
+    }
+
+    function handleQ3() {
+        document.getElementById('quiz-section').style.display = 'none';
+        document.getElementById('message-section').style.display = 'block';
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+    }
+
+    // الانتقال للأغنية
+    function goToSongSection() {
+        document.getElementById('message-section').style.display = 'none';
+        document.getElementById('song-section').style.display = 'block';
+    }
+
+    // التحكم بتشغيل وإعادة الأغنية
+    let isPlaying = false;
+    function toggleSong() {
+        const iframe = document.getElementById('yt-video');
         if (!isPlaying) {
             iframe.src = "https://www.youtube.com/embed/-NNw5b8ADU8?autoplay=1&enablejsapi=1";
-            btn.innerText = "⏸️ إيقاف الأغنية";
             isPlaying = true;
         } else {
             iframe.src = "https://www.youtube.com/embed/-NNw5b8ADU8?enablejsapi=1";
-            btn.innerText = "🎵 تشغيل الأغنية";
             isPlaying = false;
         }
     }
 
-    function showGame() {
-        document.getElementById('card-section').style.display = 'none';
-        document.getElementById('game-section').style.display = 'block';
+    function restartSong() {
+        const iframe = document.getElementById('yt-video');
+        iframe.src = "https://www.youtube.com/embed/-NNw5b8ADU8?autoplay=1&enablejsapi=1";
+        isPlaying = true;
     }
 
+    // الانتقال لصفحة الهدايا
+    function goToGiftsSection() {
+        document.getElementById('song-section').style.display = 'none';
+        document.getElementById('gifts-section').style.display = 'block';
+    }
+
+    // فتح هدية معينة
     function openGift(num) {
-        document.getElementById(`icon-${num}`).style.display = 'none';
-        document.getElementById(`content-${num}`).style.display = 'block';
-        confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
+        document.getElementById('gifts-section').style.display = 'none';
+        document.getElementById('single-gift-view').style.display = 'block';
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+
+        const giftTitle = document.getElementById('gift-title');
+        const giftImg = document.getElementById('gift-image');
+
+        if (num === 1) {
+            giftTitle.innerText = "Hi my strong big sister I wanted to say that I love you Happy birthday! I hope we always stay together I apologize for any mistakes I’ve made and I cherish all the time we spend together. 🌹";
+            giftImg.src = "rose.jpg"; // ضع اسم ملف صورة الوردة المرفوعة هنا
+        } else if (num === 2) {
+            giftTitle.innerText = "Meeee!! 🐶";
+            giftImg.src = "puppy.jpg"; // ضع اسم ملف صورة الجرو المرفوعة هنا
+        } else if (num === 3) {
+            giftTitle.innerText = "Hug!! 🫂";
+            giftImg.src = "hug.gif"; // ضع اسم ملف صورة GIF المرفوعة هنا
+        }
+    }
+
+    // زر العودة لقائمة الهدايا
+    function backToGiftsMenu() {
+        document.getElementById('single-gift-view').style.display = 'none';
+        document.getElementById('gifts-section').style.display = 'block';
     }
 </script>
 
