@@ -20,7 +20,7 @@
         }
         .container {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             max-width: 550px;
@@ -39,7 +39,7 @@
             font-weight: bold;
         }
 
-        /* تصميم خيارات الأسئلة */
+        /* خيارات الأسئلة */
         .quiz-option {
             background: #f1f2f6;
             border: 2px solid #dfe4ea;
@@ -56,15 +56,10 @@
             border-color: #ff4757;
         }
 
-        /* قسم البطاقة والمفاجأة (مخفي في البداية) */
+        /* بطاقة المعايدة */
         #card-section {
             display: none;
             animation: fadeIn 1s forwards;
-        }
-        .gift-box {
-            font-size: 80px;
-            margin: 15px 0;
-            animation: bounce 2s infinite;
         }
         .card-message {
             background: #fff0f3;
@@ -72,18 +67,56 @@
             border-radius: 15px;
             border-right: 5px solid #ff4757;
             text-align: right;
-            margin-top: 20px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+            margin: 15px 0;
         }
 
+        /* المشغل والأزرار */
+        .btn-action {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+
+        /* منطقة اللعبة */
+        #game-section {
+            display: none;
+            animation: fadeIn 1s forwards;
+        }
+        .game-area {
+            width: 100%;
+            height: 250px;
+            background: #f1f2f6;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+            border: 2px dashed #ff4757;
+        }
+        .balloon {
+            font-size: 40px;
+            position: absolute;
+            cursor: pointer;
+            user-select: none;
+            animation: floatUp 4s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { bottom: -50px; opacity: 1; }
+            100% { bottom: 260px; opacity: 0; }
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
         }
     </style>
     <!-- مكتبة القصاصات الورقية الاحتفالية -->
@@ -93,60 +126,71 @@
 
 <div class="container">
     
-    <!-- قسم الأسئلة -->
+    <!-- 1. قسم الأسئلة -->
     <div id="quiz-container">
-        <h1>happy birthday my strong older sister!!</h1>
+        <h1>🎂 لغز عيد الميلاد!</h1>
         <div class="progress-bar" id="progress">السؤال 1 من 3</div>
         
-        <!-- السؤال الأول -->
-        <div id="q1" class="question-block">
-            <h3>1.Have I been a good boy this year?🤔</h3>
-            <div class="quiz-option" onclick="checkAnswer(1, false)">no ofc not!</div>
-            <div class="quiz-option" onclick="checkAnswer(1, true)">yes my stilly puppy 💖</div>
-            <div class="quiz-option" onclick="checkAnswer(1, true)">not alwelys but yes my stupid puppy</div>
+        <div id="q1">
+            <h3>1. ما هو أكثر شيء يميز صداقتنا؟ 🤔</h3>
+            <div class="quiz-option" onclick="checkAnswer(1, false)">أننا نتحدث عن الطقس فقط ☀️</div>
+            <div class="quiz-option" onclick="checkAnswer(1, true)">أننا نفهم بعضنا ونضحك معاً 💖</div>
+            <div class="quiz-option" onclick="checkAnswer(1, false)">أننا ننسى الرد على بعضنا 😅</div>
         </div>
 
-        <!-- السؤال الثاني (مخفي مؤقتاً) -->
-        <div id="q2" class="question-block" style="display: none;">
-            <h3>2. Are we best friends? ✨</h3>
-            <div class="quiz-option" onclick="checkAnswer(2, true)">yes we are🌸</div>
-            <div class="quiz-option" onclick="checkAnswer(2, false)">nope! </div>
-            <div class="quiz-option" onclick="checkAnswer(2, false)">ummm myb </div>
+        <div id="q2" style="display: none;">
+            <h3>2. ما هي أكثر صفة أحبها بكِ؟ ✨</h3>
+            <div class="quiz-option" onclick="checkAnswer(2, true)">طيبة قلبكِ ولطافتكِ الدائمة 🌸</div>
+            <div class="quiz-option" onclick="checkAnswer(2, false)">حُبكِ للنوم والراحة 😴</div>
+            <div class="quiz-option" onclick="checkAnswer(2, false)">العناد 🙈</div>
         </div>
 
-        <!-- السؤال الثالث (مخفي مؤقتاً) -->
-        <div id="q3" class="question-block" style="display: none;">
-            <h3>3. هل أنتِ جاهزة لرؤية بطاقة المعايدة والهدية؟ 🎁</h3>
+        <div id="q3" style="display: none;">
+            <h3>3. هل أنتِ جاهزة لرؤية المعايدة والهدية؟ 🎁</h3>
             <div class="quiz-option" onclick="checkAnswer(3, false)">ليس بعد 🙈</div>
             <div class="quiz-option" onclick="checkAnswer(3, true)">نعم، بكل تأكيد! 🎉</div>
         </div>
 
-        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">ohh cmmmn dont make me cry</p>
+        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">إجابة خاطئة! حاولي مجدداً 😉</p>
     </div>
 
-    <!-- بطاقة المعايدة النهائية -->
+    <!-- 2. بطاقة المعايدة + الموسيقى -->
     <div id="card-section">
         <h1>✨ كل عام وأنتِ بـألف خير! ✨</h1>
-        <div class="gift-box">🎁🎈</div>
         
+        <!-- مشغل الأغنية (أغنية عيد ميلاد هادئة ومبهجة) -->
+        <audio id="birthday-song" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+
         <div class="card-message">
-            <h2 style="color: #ff4757; margin-top: 0;">صديقتي العزيزة ❤️</h2>
-            
-            <!-- اكتب كل ما تريد إرساله لها في الأسطر التالية -->
-            <p>في هذا اليوم المميز، أردت أن أهديتكِ شيئاً خاصاً يصنع لكِ ابتسامة.</p>
-            <p>أتمنى لكِ سنة جديدة مليئة بالسعادة، النجاح، وتحقيق كل الأشخاص والأحلام التي تتمنينها. شكراً لأنكِ صديقة رائعة وجودها يضيف لمسة جميلة لحياتي!</p>
-            <p><strong>دمتِ بخير وسعادة دائماً ✨🎂</strong></p>
+            <h3 style="color: #ff4757; margin-top: 0;">صديقتي العزيزة ❤️</h3>
+            <p>في هذا اليوم المميز، أردت أن أقدم لكِ هذه المفاجأة البسيطة لتصنع لكِ ابتسامة!</p>
+            <p>أتمنى لكِ سنة جديدة مليئة بالسعادة والنجاح وتحقيق كل أحلامكِ. شكراً لأنكِ صديقة رائعة دائماً ✨🎂</p>
         </div>
+
+        <button class="btn-action" onclick="startGame()">انتقلي للعبة المفاجأة 🎈🎮</button>
+    </div>
+
+    <!-- 3. اللعبة الصغرة (تجميع البالونات) -->
+    <div id="game-section">
+        <h1>🎈 لعبة صيد البالونات!</h1>
+        <p>اضغطي على البالونات لتجميع النقاط والهدايا!</p>
+        <h3>النقاط: <span id="score" style="color: #ff4757;">0</span></h3>
+        
+        <div class="game-area" id="game-area"></div>
+        
+        <button class="btn-action" onclick="location.reload()" style="background: #2ed573;">إعادة التشغيل 🔄</button>
     </div>
 
 </div>
 
 <script>
     let currentQuestion = 1;
+    let score = 0;
 
     function checkAnswer(questionNum, isCorrect) {
         const errorMsg = document.getElementById('error-msg');
-        
         if (isCorrect) {
             errorMsg.style.display = 'none';
             document.getElementById(`q${questionNum}`).style.display = 'none';
@@ -156,20 +200,46 @@
                 document.getElementById(`q${currentQuestion}`).style.display = 'block';
                 document.getElementById('progress').innerText = `السؤال ${currentQuestion} من 3`;
             } else {
-                // عند إكمال 3 أسئلة بنجاح
+                // فتح المعايدة والموسيقى
                 document.getElementById('quiz-container').style.display = 'none';
                 document.getElementById('card-section').style.display = 'block';
                 
-                // تشغيل القصاصات الورقية الاحتفالية
-                confetti({
-                    particleCount: 150,
-                    spread: 80,
-                    origin: { y: 0.6 }
-                });
+                // تشغيل الأغنية والاحتفال
+                document.getElementById('birthday-song').play().catch(()=>{});
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             }
         } else {
             errorMsg.style.display = 'block';
         }
+    }
+
+    function startGame() {
+        document.getElementById('card-section').style.display = 'none';
+        document.getElementById('game-section').style.display = 'block';
+        
+        // إطلاق بالونات مستمر
+        setInterval(spawnBalloon, 800);
+    }
+
+    function spawnBalloon() {
+        const area = document.getElementById('game-area');
+        if(!area) return;
+        
+        const balloon = document.createElement('div');
+        const icons = ['🎈', '🎁', '🎂', '🎉', '💖'];
+        balloon.className = 'balloon';
+        balloon.innerText = icons[Math.floor(Math.random() * icons.length)];
+        balloon.style.left = Math.random() * 80 + 10 + '%';
+        
+        balloon.onclick = function() {
+            score += 10;
+            document.getElementById('score').innerText = score;
+            confetti({ particleCount: 20, spread: 40, origin: { y: 0.8 } });
+            balloon.remove();
+        };
+
+        area.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 4000);
     }
 </script>
 
