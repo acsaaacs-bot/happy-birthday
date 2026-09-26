@@ -23,15 +23,23 @@
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
             text-align: center;
             position: relative;
         }
         h1 { color: #ff4757; margin-bottom: 10px; }
+        h3 { color: #2f3542; margin-top: 15px; }
         p { color: #555; line-height: 1.6; }
         
-        /* قسم السؤال */
+        .progress-bar {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* تصميم خيارات الأسئلة */
         .quiz-option {
             background: #f1f2f6;
             border: 2px solid #dfe4ea;
@@ -48,23 +56,24 @@
             border-color: #ff4757;
         }
 
-        /* قسم المفاجأة (مخفي في البداية) */
-        #surprise {
+        /* قسم البطاقة والمفاجأة (مخفي في البداية) */
+        #card-section {
             display: none;
             animation: fadeIn 1s forwards;
         }
         .gift-box {
             font-size: 80px;
-            margin: 20px 0;
+            margin: 15px 0;
             animation: bounce 2s infinite;
         }
-        .message {
+        .card-message {
             background: #fff0f3;
-            padding: 15px;
-            border-radius: 10px;
-            border-right: 4px solid #ff4757;
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 5px solid #ff4757;
             text-align: right;
             margin-top: 20px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
         }
 
         @keyframes fadeIn {
@@ -77,56 +86,89 @@
             60% {transform: translateY(-10px);}
         }
     </style>
-    <!-- مكتبة قصاصات الورق الاحتفالية -->
+    <!-- مكتبة القصاصات الورقية الاحتفالية -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
 <div class="container">
-    <!-- المرحلة الأولى: السؤال -->
-    <div id="quiz-section">
+    
+    <!-- قسم الأسئلة -->
+    <div id="quiz-container">
         <h1>🎂 لغز عيد الميلاد!</h1>
-        <p>قبل أن تحصلي على مفاجأتكِ، عليكِ الإجابة على هذا السؤال أولاً:</p>
+        <div class="progress-bar" id="progress">السؤال 1 من 3</div>
         
-        <!-- قم بتغيير السؤال والخيارات بما يناسبك -->
-        <h3 id="question">ما هو أفضل شيء حدث هذا العام؟ 🤔</h3>
-        
-        <div class="quiz-option" onclick="checkAnswer(false)">أن الطقس كان جميلاً ☀️</div>
-        <div class="quiz-option" onclick="checkAnswer(true)">أننا أصبحنا أصدقاء! 💖</div>
-        <div class="quiz-option" onclick="checkAnswer(false)">الإجازة الصيفية 🏖️</div>
-        
-        <p id="error-msg" style="color: red; display: none;">إجابة خاطئة! حاولي مجدداً 😉</p>
+        <!-- السؤال الأول -->
+        <div id="q1" class="question-block">
+            <h3>1. ما هو أكثر شيء يميز صداقتنا الإلكترونية؟ 🤔</h3>
+            <div class="quiz-option" onclick="checkAnswer(1, false)">أننا نتحدث عن الطقس فقط ☀️</div>
+            <div class="quiz-option" onclick="checkAnswer(1, true)">أننا نفهم بعضنا دائماً ونضحك معاً 💖</div>
+            <div class="quiz-option" onclick="checkAnswer(1, false)">أننا ننسى الرد على بعضنا 😅</div>
+        </div>
+
+        <!-- السؤال الثاني (مخفي مؤقتاً) -->
+        <div id="q2" class="question-block" style="display: none;">
+            <h3>2. ماهي صفكِ المفضلة التي أحبها بكِ؟ ✨</h3>
+            <div class="quiz-option" onclick="checkAnswer(2, true)">طيبة قلبكِ ولطافتكِ الدائمة 🌸</div>
+            <div class="quiz-option" onclick="checkAnswer(2, false)">حُبكِ للنوم والراحة 😴</div>
+            <div class="quiz-option" onclick="checkAnswer(2, false)">سرعة غضبكِ 🙈</div>
+        </div>
+
+        <!-- السؤال الثالث (مخفي مؤقتاً) -->
+        <div id="q3" class="question-block" style="display: none;">
+            <h3>3. هل أنتِ جاهزة لرؤية بطاقة المعايدة والهدية؟ 🎁</h3>
+            <div class="quiz-option" onclick="checkAnswer(3, false)">ليس بعد 🙈</div>
+            <div class="quiz-option" onclick="checkAnswer(3, true)">نعم، بكل تأكيد! 🎉</div>
+        </div>
+
+        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">إجابة خاطئة! حاولي مجدداً 😉</p>
     </div>
 
-    <!-- المرحلة الثانية: المفاجأة والهدية -->
-    <div id="surprise">
-        <h1>✨ كل عام وأنتِ بخير! ✨</h1>
-        <div class="gift-box">🎁</div>
-        <p>أتمنى لكِ سنة جديدة مليئة بالسعادة والنجاح تحققين فيها كل أحلامكِ!</p>
-
-        <!-- رسالة المعايدة الخاصة بك -->
-        <div class="message">
-            <strong>رسالة لكِ:</strong><br>
-            يسعدني جداً أنني عرفتكِ، شكراً لأنكِ صديقة رائعة دائماً. أتمنى أن يعجبكِ هذا الموقع البسيط الذي صنعته خصيصاً لكِ! ❤️
+    <!-- بطاقة المعايدة النهائية -->
+    <div id="card-section">
+        <h1>✨ كل عام وأنتِ بـألف خير! ✨</h1>
+        <div class="gift-box">🎁🎈</div>
+        
+        <div class="card-message">
+            <h2 style="color: #ff4757; margin-top: 0;">صديقتي العزيزة ❤️</h2>
+            
+            <!-- اكتب كل ما تريد إرساله لها في الأسطر التالية -->
+            <p>في هذا اليوم المميز، أردت أن أهديتكِ شيئاً خاصاً يصنع لكِ ابتسامة.</p>
+            <p>أتمنى لكِ سنة جديدة مليئة بالسعادة، النجاح، وتحقيق كل الأشخاص والأحلام التي تتمنينها. شكراً لأنكِ صديقة رائعة وجودها يضيف لمسة جميلة لحياتي!</p>
+            <p><strong>دمتِ بخير وسعادة دائماً ✨🎂</strong></p>
         </div>
     </div>
+
 </div>
 
 <script>
-    function checkAnswer(isCorrect) {
+    let currentQuestion = 1;
+
+    function checkAnswer(questionNum, isCorrect) {
+        const errorMsg = document.getElementById('error-msg');
+        
         if (isCorrect) {
-            // إخفاء السؤال وإظهار الهدية
-            document.getElementById('quiz-section').style.display = 'none';
-            document.getElementById('surprise').style.display = 'block';
+            errorMsg.style.display = 'none';
+            document.getElementById(`q${questionNum}`).style.display = 'none';
             
-            // إطلاق القصاصات الورقية الاحتفالية
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+            if (questionNum < 3) {
+                currentQuestion++;
+                document.getElementById(`q${currentQuestion}`).style.display = 'block';
+                document.getElementById('progress').innerText = `السؤال ${currentQuestion} من 3`;
+            } else {
+                // عند إكمال 3 أسئلة بنجاح
+                document.getElementById('quiz-container').style.display = 'none';
+                document.getElementById('card-section').style.display = 'block';
+                
+                // تشغيل القصاصات الورقية الاحتفالية
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            }
         } else {
-            document.getElementById('error-msg').style.display = 'block';
+            errorMsg.style.display = 'block';
         }
     }
 </script>
