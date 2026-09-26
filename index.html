@@ -70,56 +70,71 @@
             margin: 15px 0;
         }
 
-        /* المشغل والأزرار */
+        /* الأزرار */
         .btn-action {
             background: #ff4757;
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
-            transition: transform 0.2s;
+            margin: 5px;
+            transition: transform 0.2s, background 0.2s;
         }
         .btn-action:hover {
             transform: scale(1.05);
         }
+        .btn-music {
+            background: #ffa502;
+        }
 
-        /* منطقة اللعبة */
+        /* لعبة الهدايا */
         #game-section {
             display: none;
             animation: fadeIn 1s forwards;
         }
-        .game-area {
-            width: 100%;
-            height: 250px;
-            background: #f1f2f6;
-            border-radius: 15px;
-            position: relative;
-            overflow: hidden;
-            margin-top: 15px;
-            border: 2px dashed #ff4757;
+        .gifts-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .balloon {
-            font-size: 40px;
-            position: absolute;
+        .gift-card {
+            background: #f1f2f6;
+            border: 2px dashed #ff4757;
+            border-radius: 15px;
+            padding: 15px;
+            width: 30%;
+            min-width: 130px;
             cursor: pointer;
-            user-select: none;
-            animation: floatUp 4s linear infinite;
+            transition: transform 0.3s;
+        }
+        .gift-card:hover {
+            transform: translateY(-5px);
+        }
+        .gift-icon {
+            font-size: 50px;
+        }
+        .gift-content {
+            display: none;
+            margin-top: 10px;
+        }
+        .gift-content img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
-        @keyframes floatUp {
-            0% { bottom: -50px; opacity: 1; }
-            100% { bottom: 260px; opacity: 0; }
-        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
-    <!-- مكتبة القصاصات الورقية الاحتفالية -->
+    <!-- مكتبة القصاصات الورقية -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -154,14 +169,17 @@
         <p id="error-msg" style="color: red; display: none; margin-top: 10px;">إجابة خاطئة! حاولي مجدداً 😉</p>
     </div>
 
-    <!-- 2. بطاقة المعايدة + الموسيقى -->
+    <!-- 2. بطاقة المعايدة + زر الأغنية -->
     <div id="card-section">
         <h1>✨ كل عام وأنتِ بـألف خير! ✨</h1>
         
-        <!-- مشغل الأغنية (أغنية عيد ميلاد هادئة ومبهجة) -->
+        <!-- رابط ملف الأغنية الصوتية (ضع رابط أغنيتك هنا) --> https://youtu.be/-NNw5b8ADU8?si=1AcAiGSo_brbpGk2
         <audio id="birthday-song" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
+
+        <!-- زر تشغيل الأغنية -->
+        <button class="btn-action btn-music" onclick="toggleMusic()">🎵 تشغيل الأغنية</button>
 
         <div class="card-message">
             <h3 style="color: #ff4757; margin-top: 0;">صديقتي العزيزة ❤️</h3>
@@ -169,25 +187,55 @@
             <p>أتمنى لكِ سنة جديدة مليئة بالسعادة والنجاح وتحقيق كل أحلامكِ. شكراً لأنكِ صديقة رائعة دائماً ✨🎂</p>
         </div>
 
-        <button class="btn-action" onclick="startGame()">انتقلي للعبة المفاجأة 🎈🎮</button>
+        <!-- زر الانتقال للعبة الهدايا -->
+        <button class="btn-action" onclick="showGame()">افتحي صندوق الهدايا 🎁✨</button>
     </div>
 
-    <!-- 3. اللعبة الصغرة (تجميع البالونات) -->
+    <!-- 3. لعبة الهدايا الثلاث -->
     <div id="game-section">
-        <h1>🎈 لعبة صيد البالونات!</h1>
-        <p>اضغطي على البالونات لتجميع النقاط والهدايا!</p>
-        <h3>النقاط: <span id="score" style="color: #ff4757;">0</span></h3>
-        
-        <div class="game-area" id="game-area"></div>
-        
-        <button class="btn-action" onclick="location.reload()" style="background: #2ed573;">إعادة التشغيل 🔄</button>
+        <h1>🎁 اختاري هدية لفتحها!</h1>
+        <p>اضغطي على كل هدية لاكتشاف المفاجأة بداخلها:</p>
+
+        <div class="gifts-container">
+            <!-- الهدية الأولى -->
+            <div class="gift-card" onclick="openGift(1)">
+                <div class="gift-icon" id="icon-1">🎁</div>
+                <div class="gift-content" id="content-1">
+                    <!-- استبدل رابط الصورة بالصورة الأولى التي تريدها -->
+                    <img src="https://via.placeholder.com/150/ff4757/ffffff?text=صورة+1" alt="صورة 1">
+                    <p style="font-size: 12px; margin-top: 5px;">ذكرى جميلة ✨</p>
+                </div>
+            </div>
+
+            <!-- الهدية الثانية (صورتك أنت) -->
+            <div class="gift-card" onclick="openGift(2)">
+                <div class="gift-icon" id="icon-2">🎁</div>
+                <div class="gift-content" id="content-2">
+                    <!-- استبدل رابط الصورة برابط صورتك الشخصية -->
+                    <img src="https://via.placeholder.com/150/2ed573/ffffff?text=صورتك+1" alt="صورتك">
+                    <p style="font-size: 12px; margin-top: 5px;">أنا هنا دائماً لأجلكِ! 🙋‍♂️</p>
+                </div>
+            </div>
+
+            <!-- الهدية الثالثة (صورتك أنت أيضاً) -->
+            <div class="gift-card" onclick="openGift(3)">
+                <div class="gift-icon" id="icon-3">🎁</div>
+                <div class="gift-content" id="content-3">
+                    <!-- استبدل رابط الصورة برابط صورتك الثانية -->
+                    <img src="https://via.placeholder.com/150/1e90ff/ffffff?text=صورتك+2" alt="صورتك">
+                    <p style="font-size: 12px; margin-top: 5px;">صديقكِ المفضل 😊</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-action" onclick="location.reload()" style="background: #2ed573; margin-top: 25px;">إعادة من البداية 🔄</button>
     </div>
 
 </div>
 
 <script>
     let currentQuestion = 1;
-    let score = 0;
+    let isPlaying = false;
 
     function checkAnswer(questionNum, isCorrect) {
         const errorMsg = document.getElementById('error-msg');
@@ -200,12 +248,8 @@
                 document.getElementById(`q${currentQuestion}`).style.display = 'block';
                 document.getElementById('progress').innerText = `السؤال ${currentQuestion} من 3`;
             } else {
-                // فتح المعايدة والموسيقى
                 document.getElementById('quiz-container').style.display = 'none';
                 document.getElementById('card-section').style.display = 'block';
-                
-                // تشغيل الأغنية والاحتفال
-                document.getElementById('birthday-song').play().catch(()=>{});
                 confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             }
         } else {
@@ -213,33 +257,31 @@
         }
     }
 
-    function startGame() {
-        document.getElementById('card-section').style.display = 'none';
-        document.getElementById('game-section').style.display = 'block';
-        
-        // إطلاق بالونات مستمر
-        setInterval(spawnBalloon, 800);
+    // تشغيل وإيقاف الأغنية بضغطة زر
+    function toggleMusic() {
+        const song = document.getElementById('birthday-song');
+        const btn = document.querySelector('.btn-music');
+        if (isPlaying) {
+            song.pause();
+            btn.innerText = "🎵 تشغيل الأغنية";
+        } else {
+            song.play();
+            btn.innerText = "⏸️ إيقاف الأغنية";
+        }
+        isPlaying = !isPlaying;
     }
 
-    function spawnBalloon() {
-        const area = document.getElementById('game-area');
-        if(!area) return;
-        
-        const balloon = document.createElement('div');
-        const icons = ['🎈', '🎁', '🎂', '🎉', '💖'];
-        balloon.className = 'balloon';
-        balloon.innerText = icons[Math.floor(Math.random() * icons.length)];
-        balloon.style.left = Math.random() * 80 + 10 + '%';
-        
-        balloon.onclick = function() {
-            score += 10;
-            document.getElementById('score').innerText = score;
-            confetti({ particleCount: 20, spread: 40, origin: { y: 0.8 } });
-            balloon.remove();
-        };
+    // الانتقال إلى لعبة الهدايا
+    function showGame() {
+        document.getElementById('card-section').style.display = 'none';
+        document.getElementById('game-section').style.display = 'block';
+    }
 
-        area.appendChild(balloon);
-        setTimeout(() => balloon.remove(), 4000);
+    // فتح الهدايا
+    function openGift(num) {
+        document.getElementById(`icon-${num}`).style.display = 'none';
+        document.getElementById(`content-${num}`).style.display = 'block';
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
     }
 </script>
 
