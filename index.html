@@ -81,7 +81,7 @@
             font-weight: bold;
             cursor: pointer;
             margin: 5px;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s;
         }
         .btn-action:hover {
             transform: scale(1.05);
@@ -115,13 +115,8 @@
         .gift-card:hover {
             transform: translateY(-5px);
         }
-        .gift-icon {
-            font-size: 50px;
-        }
-        .gift-content {
-            display: none;
-            margin-top: 10px;
-        }
+        .gift-icon { font-size: 50px; }
+        .gift-content { display: none; margin-top: 10px; }
         .gift-content img {
             width: 100%;
             height: 120px;
@@ -134,7 +129,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
-    <!-- مكتبة القصاصات الورقية -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -169,17 +163,20 @@
         <p id="error-msg" style="color: red; display: none; margin-top: 10px;">إجابة خاطئة! حاولي مجدداً 😉</p>
     </div>
 
-    <!-- 2. بطاقة المعايدة + زر الأغنية -->
+    <!-- 2. بطاقة المعايدة + الأغنية من يوتيوب -->
     <div id="card-section">
         <h1>✨ كل عام وأنتِ بـألف خير! ✨</h1>
         
-        <!-- رابط ملف الأغنية الصوتية (ضع رابط أغنيتك هنا) -->
-     https://youtu.be/-NNw5b8ADU8?si=1AcAiGSo_brbpGk2<audio id="birthday-song" loop>
-            <source src="https://youtu.be/-NNw5b8ADU8?si=1AcAiGSo_brbpGk2" type="audio/mpeg">
-        </audio>
+        <!-- مشغل يوتيوب مخفي ومخصص للأغنية المخترارة -->
+        <div id="yt-player-container" style="display:none;">
+            <iframe id="yt-player" width="100" height="100" 
+                src="https://www.youtube.com/embed/-NNw5b8ADU8?enablejsapi=1" 
+                allow="autoplay">
+            </iframe>
+        </div>
 
-        <!-- زر تشغيل الأغنية -->
-        <button class="btn-action btn-music" onclick="toggleMusic()">🎵 تشغيل الأغنية</button>
+        <!-- زر تشغيل وإيقاف الأغنية -->
+        <button class="btn-action btn-music" onclick="toggleYoutubeMusic()">🎵 تشغيل الأغنية</button>
 
         <div class="card-message">
             <h3 style="color: #ff4757; margin-top: 0;">صديقتي العزيزة ❤️</h3>
@@ -187,7 +184,6 @@
             <p>أتمنى لكِ سنة جديدة مليئة بالسعادة والنجاح وتحقيق كل أحلامكِ. شكراً لأنكِ صديقة رائعة دائماً ✨🎂</p>
         </div>
 
-        <!-- زر الانتقال للعبة الهدايا -->
         <button class="btn-action" onclick="showGame()">افتحي صندوق الهدايا 🎁✨</button>
     </div>
 
@@ -197,31 +193,25 @@
         <p>اضغطي على كل هدية لاكتشاف المفاجأة بداخلها:</p>
 
         <div class="gifts-container">
-            <!-- الهدية الأولى -->
             <div class="gift-card" onclick="openGift(1)">
                 <div class="gift-icon" id="icon-1">🎁</div>
                 <div class="gift-content" id="content-1">
-                    <!-- استبدل رابط الصورة بالصورة الأولى التي تريدها -->
                     <img src="https://via.placeholder.com/150/ff4757/ffffff?text=صورة+1" alt="صورة 1">
                     <p style="font-size: 12px; margin-top: 5px;">ذكرى جميلة ✨</p>
                 </div>
             </div>
 
-            <!-- الهدية الثانية (صورتك أنت) -->
             <div class="gift-card" onclick="openGift(2)">
                 <div class="gift-icon" id="icon-2">🎁</div>
                 <div class="gift-content" id="content-2">
-                    <!-- استبدل رابط الصورة برابط صورتك الشخصية -->
                     <img src="https://via.placeholder.com/150/2ed573/ffffff?text=صورتك+1" alt="صورتك">
                     <p style="font-size: 12px; margin-top: 5px;">أنا هنا دائماً لأجلكِ! 🙋‍♂️</p>
                 </div>
             </div>
 
-            <!-- الهدية الثالثة (صورتك أنت أيضاً) -->
             <div class="gift-card" onclick="openGift(3)">
                 <div class="gift-icon" id="icon-3">🎁</div>
                 <div class="gift-content" id="content-3">
-                    <!-- استبدل رابط الصورة برابط صورتك الثانية -->
                     <img src="https://via.placeholder.com/150/1e90ff/ffffff?text=صورتك+2" alt="صورتك">
                     <p style="font-size: 12px; margin-top: 5px;">صديقكِ المفضل 😊</p>
                 </div>
@@ -257,27 +247,27 @@
         }
     }
 
-    // تشغيل وإيقاف الأغنية بضغطة زر
-    function toggleMusic() {
-        const song = document.getElementById('birthday-song');
+    // تشغيل الأغنية من يوتيوب
+    function toggleYoutubeMusic() {
+        const iframe = document.getElementById('yt-player');
         const btn = document.querySelector('.btn-music');
-        if (isPlaying) {
-            song.pause();
-            btn.innerText = "🎵 تشغيل الأغنية";
-        } else {
-            song.play();
+        
+        if (!isPlaying) {
+            iframe.src = "https://www.youtube.com/embed/-NNw5b8ADU8?autoplay=1&enablejsapi=1";
             btn.innerText = "⏸️ إيقاف الأغنية";
+            isPlaying = true;
+        } else {
+            iframe.src = "https://www.youtube.com/embed/-NNw5b8ADU8?enablejsapi=1";
+            btn.innerText = "🎵 تشغيل الأغنية";
+            isPlaying = false;
         }
-        isPlaying = !isPlaying;
     }
 
-    // الانتقال إلى لعبة الهدايا
     function showGame() {
         document.getElementById('card-section').style.display = 'none';
         document.getElementById('game-section').style.display = 'block';
     }
 
-    // فتح الهدايا
     function openGift(num) {
         document.getElementById(`icon-${num}`).style.display = 'none';
         document.getElementById(`content-${num}`).style.display = 'block';
