@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Sister! 🎁🎉</title>
+    <title>Happy Birthday! 🎁🎉</title>
     <style>
         * {
             box-sizing: border-box;
@@ -193,9 +193,9 @@
         <div id="q1">
             <h2>Question 1/3</h2>
             <p><strong>Was I a good boy to you this year? 🥺</strong></p>
-            <div class="quiz-option" onclick="handleQ1(false)">No ofc not!</div>
+            <div class="quiz-option" onclick="handleQ1(false)">Nope!</div>
             <div class="quiz-option" onclick="handleQ1(true)">Yes my silly lil puppy</div>
-            <div class="quiz-option" onclick="handleQ1(true)">ummm not always but ya my stupid boy</div>
+            <div class="quiz-option" onclick="handleQ1(true)">ummm not always but ya my good boy</div>
             <p id="q1-error" class="error-message">ohh cmmmn don't make me cry 🥺💔</p>
         </div>
 
@@ -203,7 +203,7 @@
         <div id="q2" style="display: none;">
             <h2>Question 2/3</h2>
             <p><strong>Are you happy w me nd we best friends?</strong></p>
-            <div class="quiz-option" onclick="handleQ2(true)">Yes ofc!</div>
+            <div class="quiz-option" onclick="handleQ2(true)">Yes! my sweet puppy</div>
             <div class="quiz-option" onclick="handleQ2(false)">Nope</div>
             <p id="q2-error" class="error-message">ohh cmmmn don't make me cry 🥺💔</p>
         </div>
@@ -249,7 +249,7 @@
     <!-- 4. قسم اختيار الهدايا الثلاث -->
     <div id="gifts-section">
         <h1>🎁 Choose a Gift!</h1>
-        <p>Click on any gift to open your surprise:</p>
+        <p>Click on any gift to open your surprise frist:</p>
 
         <div class="gifts-grid">
             <div class="gift-item" onclick="openGift(1)">
@@ -277,7 +277,7 @@
         <h2 id="gift-title">Gift Title</h2>
         <img id="gift-image" class="gift-display-img" src="" alt="Gift Image">
         <br>
-        <button class="btn-back" onclick="backToGiftsMenu()">⬅️ Back to Gifts</button>
+        <button class="btn-back" onclick="backToGiftsMenu()"> Back to Gifts</button>
     </div>
 
     <!-- 6. الشاشة الأخيرة: إطفاء الشمعة والأمنية -->
@@ -292,7 +292,7 @@
 
         <div id="wish-result" style="display:none; margin: 15px 0;">
             <h2 style="color: #ff4757;">May all your wishes come true! 💖</h2>
-            <p><strong>You're the best sister ever! Have an amazing year ahead! 🎉🐶</strong></p>
+            <p><strong>You're the best sister ever! Have an amazing year ahead! WOOF WOOF 🎉🐶</strong></p>
         </div>
 
         <button class="btn-next" id="blow-btn" onclick="blowCandle()" style="background: #ff4757;">
@@ -369,7 +369,7 @@
         const giftImg = document.getElementById('gift-image');
 
         if (num === 1) {
-            giftTitle.innerText = "Hi 🌹";
+            giftTitle.innerText = "Hi my strong big sister Happy birthday to th best sister in the world I am so happy that you are happy and have stayed with me until now I always hope you'll be happy with me I love you so much🌹";
             giftImg.src = "rose.jpg";
         } else if (num === 2) {
             giftTitle.innerText = "Me!! 🐶";
